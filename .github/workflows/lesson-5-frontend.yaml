@@ -5,16 +5,15 @@ on:
     branches:
       - lesson-5
 jobs:
-#  function_test: (commented out to save learner time)
+#  Security_tests:
+     needs: [deploy]
 #    runs-on: ubuntu-latest
-#    defaults:
-#      run:
-#        working-directory: frontend
 #    steps:
-#      - uses: actions/checkout@v4
-#      - run: npm install
-#      - name: Run functional tests
-#        run: npm test -- --coverage --watchAll=false
+#      - name: ZAP Baseline Scan
+         uses: zaproxy/action-baseline@v0.15.0
+         with:
+           target: 'http://hangryhippo.Quantic.host'
+           rules_file_name: 'zaproxy/rules.txt'
   deploy:
 #    needs: [function_test] (normally you'd not deploy until functional tests were complete)
     runs-on: ubuntu-latest
