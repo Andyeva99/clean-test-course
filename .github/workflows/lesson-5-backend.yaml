@@ -5,6 +5,27 @@ on:
     branches:
       - lesson-5
 jobs:
+Security_tests:
+    runs-on: ubuntu-latest
+    deafaults:
+      run:
+        working-directory: backend
+    name: execute the pycharm security tests
+    steps:
+      - uses: actions/checkout@v4
+      - name: PyCharm Python Security Scanner
+        uses: tonybaloney/pycharm-security@1.25.1
+  build_and_test:
+    needs: [Security_tests]
+    runs-on: ubuntu-latest
+          run: |
+            pip install pytest django_mock_queries six coverage
+            coverage run -m --source=./hangry_api pytest
+            coverage report
+      - name: Run Bandit Security Tests
+        run: |
+          pip install bandit
+          bandit -r backend/hangry_api
   build_and_test:
     runs-on: ubuntu-latest
     defaults:
